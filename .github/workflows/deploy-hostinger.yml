@@ -35,6 +35,8 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+      - name: Validate deployment shell syntax
+        run: bash -n scripts/hostinger-deploy.sh
       - run: composer install --no-interaction --prefer-dist --no-progress --optimize-autoloader
       - run: cp .env.example .env && php artisan key:generate
       - run: npm ci
