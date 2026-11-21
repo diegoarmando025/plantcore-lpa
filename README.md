@@ -11,6 +11,11 @@ Sistema de auditorías por capas (Layered Process Audits) para operaciones indus
 - Indicadores de conformidad y cumplimiento por nivel y por responsable; exportaciones CSV.
 - Control de acceso por rol y por planta, con pruebas automatizadas de aislamiento.
 
+## Documentación técnica
+
+- [Arquitectura, modelo de datos, permisos y límites](docs/ARCHITECTURE.md)
+- [Guía para evaluar el sistema y obtener capturas reales](docs/REVIEWER_GUIDE.md)
+
 ## Tecnologías
 
 PHP 8.4, Laravel 13, SQLite (desarrollo/pruebas), Blade, Bootstrap 5, AdminLTE 4, Vite, PHPUnit y GitHub Actions.
