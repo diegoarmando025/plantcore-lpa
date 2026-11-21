@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+      - run: bash -n scripts/hostinger-deploy.sh
       - run: composer validate --no-check-publish
       - run: composer install --no-interaction --prefer-dist --no-progress --optimize-autoloader
       - run: cp .env.example .env && php artisan key:generate
