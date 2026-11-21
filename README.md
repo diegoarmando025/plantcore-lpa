@@ -84,6 +84,10 @@ GitHub Actions ejecuta instalación de dependencias, compilación de activos y p
 
 Las pruebas cubren programación, ejecución, acciones, permisos por rol, aislamiento entre plantas, indicadores y exportaciones. Las salidas CSV se protegen contra fórmulas inyectadas. Ejecuta las pruebas antes de publicar nuevas versiones.
 
+## Otro sistema industrial del portafolio
+
+[PlantCore Traceability — aplicación web y API REST](https://github.com/diegoarmando025/industrial-traceability-api): registro de cajas, validación de lecturas, control de liberación e historial por usuario. Es un repositorio independiente; no comparte datos de ejecución con PlantCore LPA.
+
 ## Alcance
 
 Demostración funcional de arquitectura y flujos industriales. No incluye información, código ni reglas propietarias de clientes. No está configurado para producción: antes de un despliegue real se requiere configuración segura del entorno, HTTPS, respaldo, monitorización y revisión de acceso.
