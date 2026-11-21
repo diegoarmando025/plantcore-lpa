@@ -7,7 +7,14 @@ use App\Http\Controllers\LpaBatchController;
 use App\Http\Controllers\LpaExportController;
 use App\Http\Controllers\LpaSummaryExportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LpaPublicDemoController;
 Route::redirect('/','/audits');
+
+// Public showcase is opt-in and restricted to an isolated fictional plant.
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('/demo', [LpaPublicDemoController::class, 'index'])->name('lpa.public-demo.index');
+    Route::get('/demo/audits/{audit}', [LpaPublicDemoController::class, 'show'])->name('lpa.public-demo.show');
+});
 Route::middleware('guest')->group(function(){
  Route::get('/login',[LpaAuthController::class,'login'])->name('login');
  Route::post('/login',[LpaAuthController::class,'authenticate'])->name('login.store');
