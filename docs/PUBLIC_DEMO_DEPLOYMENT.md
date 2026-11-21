@@ -15,7 +15,7 @@ The public showcase is **not** the authenticated admin application. It uses only
 Back up the database and current `.env` first, and check Git status before pulling. Existing production data must not be replaced:
 
 ```bash
-cd /home/u641948971/domains/devalejandre.com/apps/lpa
+cd /path/to/private-laravel-project
 git status --short
 git pull --ff-only origin main
 /opt/alt/php84/usr/bin/php artisan migrate --force
