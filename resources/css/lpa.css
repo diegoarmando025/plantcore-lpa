@@ -1,0 +1,25 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import 'admin-lte/dist/css/adminlte.min.css';
+:root { --bs-primary: #24445d; --bs-primary-rgb: 36,68,93; }
+.login-page { min-height:100vh; } .login-box {width:min(420px,calc(100vw - 2rem));}
+.app-content .card {box-shadow:none;border:1px solid var(--bs-border-color)}
+.app-content .small-box {min-height:130px;} .app-content .small-box .inner {padding:1rem 1.3rem}
+.app-content .table {font-size:.9rem;} .app-content .table th,.app-content .table td {padding:.7rem .85rem}
+
+/* Densidad apta para tablets y ventanas reducidas */
+.app-content .small-box { min-height: 100px; margin-bottom:0; }
+.app-content .small-box .inner { padding: .85rem 1.15rem; }
+.app-content .small-box .inner h3 { font-size: 1.7rem; line-height: 1.1; margin-bottom: .45rem; }
+.app-content .small-box .inner p { font-size: .93rem; margin-bottom: 0; }
+.app-content .card-header { padding:.7rem 1rem; }
+.app-content .card-body { padding:1rem; }
+.app-content .table td { overflow-wrap:break-word; }
+.lpa-hallazgo { min-width: 210px; max-width: 360px; }
+@media(max-width: 575px) { .lpa-kpis { --bs-gutter-y: .55rem; } }
+
+/* Readable, compact month grid and questionnaire views. */
+.lpa-calendar { table-layout: fixed; min-width: 800px; }
+.lpa-calendar td { width: 14.285%; height: 110px; vertical-align: top; }
+.lpa-calendar .small { font-size: .76rem; }
+.app-content .table th { white-space: nowrap; }

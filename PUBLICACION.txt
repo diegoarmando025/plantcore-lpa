@@ -1,0 +1,13 @@
+1. Copia README.md y la carpeta .github al directorio C:\Github\plantcore-lpa.
+2. Verifica que package-lock.json exista (si falta: npm install).
+3. Comprueba que .gitignore excluya .env, vendor/, node_modules/, database/*.sqlite, public/build/ y storage/logs/.
+4. Ejecuta php artisan test y npm run build.
+5. Si tienes GitHub CLI instalado y autenticado:
+   git init
+   git branch -M main
+   git add .
+   git status --short
+   git commit -m "Initial release: PlantCore LPA"
+   gh repo create diegoarmando025/plantcore-lpa --public --source=. --remote=origin --push
+   (Si ya había un repositorio git inicializado, omite git init y comprueba la rama antes.)
+6. En GitHub revisa la ejecución de Actions.
