@@ -13,7 +13,7 @@ Sistema de auditorías por capas (Layered Process Audits) para operaciones indus
 
 ## Tecnologías
 
-PHP 8.4+, Laravel 13, SQLite (desarrollo/pruebas), Blade, Bootstrap 5, AdminLTE 4, Vite, PHPUnit y GitHub Actions.
+PHP 8.4, Laravel 13, SQLite (desarrollo/pruebas), Blade, Bootstrap 5, AdminLTE 4, Vite, PHPUnit y GitHub Actions.
 
 ## Instalación local
 
@@ -23,26 +23,36 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Configura `DB_CONNECTION=sqlite` en `.env` y crea `database/database.sqlite` si no existe. Después:
+Configura `DB_CONNECTION=sqlite` en `.env` y crea `database/database.sqlite` si no existe. En PowerShell puedes usar `Copy-Item .env.example .env` en lugar de `cp`. Después:
 
 ```bash
 php artisan migrate
-php artisan db:seed --class=LpaSeeder
+php artisan db:seed --class=LpaPortfolioSeeder
 npm ci
 npm run build
 php artisan test
 php artisan serve
 ```
 
-Para iniciar sesión, establece una contraseña local al usuario de demostración `supervisor@lpa.example.invalid` mediante `php artisan tinker`:
+## Escenario reproducible
+
+`php artisan db:seed --class=LpaPortfolioSeeder` crea una planta ficticia, dos cuestionarios (niveles 1 y 2), seis auditorías (cuatro completadas, dos programadas) y una acción correctiva vencida. Es seguro ejecutarlo de nuevo: no duplica los registros de demostración y no modifica otras plantas. El seeder solo funciona en entornos `local` y `testing`; **no ejecutes `migrate:fresh` sobre una base con datos que quieras conservar**.
+
+Para iniciar sesión, elige una contraseña **solo para tu instalación local** al usuario `demo.supervisor@lpa.example.invalid`:
+
+```bash
+php artisan tinker
+```
 
 ```php
-$user = App\Models\User::where('email', 'supervisor@lpa.example.invalid')->firstOrFail();
-$user->password = 'USA-UNA-CONTRASENA-SEGURA-SOLO-LOCAL';
+$user = App\Models\User::where('email', 'demo.supervisor@lpa.example.invalid')->firstOrFail();
+$user->password = 'REEMPLAZA-CON-UNA-CONTRASENA-LOCAL-SEGURA';
 $user->save();
 ```
 
-Abre `http://127.0.0.1:8000/login`. No se publica ninguna contraseña funcional de demostración.
+El usuario auditor es `demo.auditor@lpa.example.invalid` y también recibe una contraseña aleatoria sin publicar. Abre `http://127.0.0.1:8000/login`. No se incluyen credenciales predecibles en Git.
+
+Una evaluación de principio a fin: entra como supervisor, revisa `/audits`, abre una auditoría programada y complétala, consulta el indicador de conformidad en `/reports` y administra el hallazgo en `/actions`.
 
 ## Rutas principales
 
@@ -55,6 +65,15 @@ Abre `http://127.0.0.1:8000/login`. No se publica ninguna contraseña funcional 
 | Acciones correctivas | `/actions` |
 | Indicadores | `/reports` |
 | Exportaciones | `/exports/audits`, `/exports/actions` |
+
+## Verificación local y automatizada
+
+```bash
+php artisan test
+npm run build
+```
+
+GitHub Actions ejecuta instalación de dependencias, compilación de activos y pruebas sobre cada push o pull request a `main`. El escenario de demostración tiene una prueba que comprueba repetibilidad, aislamiento por planta y acceso a auditorías, reportes y acciones.
 
 ## Calidad y seguridad
 
