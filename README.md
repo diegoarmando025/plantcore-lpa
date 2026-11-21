@@ -11,6 +11,12 @@ Sistema de auditorías por capas (Layered Process Audits) para operaciones indus
 - Indicadores de conformidad y cumplimiento por nivel y por responsable; exportaciones CSV.
 - Control de acceso por rol y por planta, con pruebas automatizadas de aislamiento.
 
+## Demostración web de solo lectura
+
+La ruta opcional `/demo` permite recorrer auditorías, filtrar por nivel/estado y consultar hallazgos **ficticios** sin iniciar sesión ni compartir credenciales administrativas. Los datos viven en una planta separada (`DEMO-PUBLIC`) y la función está desactivada por defecto. El acceso interno `/audits` continúa protegido por sesión.
+
+[Instrucciones de despliegue, habilitación y reversión](docs/PUBLIC_DEMO_DEPLOYMENT.md).
+
 ## Documentación técnica
 
 - [Arquitectura, modelo de datos, permisos y límites](docs/ARCHITECTURE.md)
