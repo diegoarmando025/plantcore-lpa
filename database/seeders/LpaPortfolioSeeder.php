@@ -83,19 +83,24 @@ class LpaPortfolioSeeder extends Seeder
                 foreach ([8, 3, -2] as $slot => $daysAgo) {
                     $date = today()->subDays($daysAgo)->toDateString();
                     $complete = $slot < 2;
-                    $audit = Audit::firstOrCreate(
-                        [
+                    $audit = Audit::query()
+                        ->where('plant_id', $plant->id)
+                        ->where('audit_template_id', $template->id)
+                        ->where('assigned_to', $auditor->id)
+                        ->whereDate('scheduled_for', $date)
+                        ->first();
+
+                    if (! $audit) {
+                        $audit = Audit::create([
                             'plant_id' => $plant->id,
                             'audit_template_id' => $template->id,
                             'assigned_to' => $auditor->id,
                             'scheduled_for' => $date,
-                        ],
-                        [
                             'created_by' => $supervisor->id,
                             'status' => $complete ? 'completed' : 'planned',
                             'completed_at' => $complete ? today()->subDays($daysAgo)->setTime(15, 0) : null,
-                        ]
-                    );
+                        ]);
+                    }
 
                     // Do not overwrite user-edited records on a later seed run.
                     if (! $complete || $audit->status !== 'completed') {
