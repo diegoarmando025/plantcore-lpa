@@ -38,7 +38,7 @@ class InteractivePortfolioAccessTest extends TestCase
 
         $this->post('/demo/entrar')->assertRedirect(route('portfolio.guide'));
         $this->assertAuthenticatedAs($user);
-        $this->get('/guia')->assertOk()->assertSee('Programar auditoría');
+        $this->get('/guia')->assertOk()->assertSee('Nueva auditoría');
     }
 
     public function test_demo_login_does_not_accept_cross_plant_admin(): void
