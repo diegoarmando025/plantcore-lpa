@@ -72,6 +72,7 @@ class InteractivePortfolioAccessTest extends TestCase
     public function test_authenticated_guide_is_not_public(): void
     {
         $this->get('/guia')->assertRedirect('/login');
+        $this->get('/login')->assertOk()->assertSee('DevAlejandre_logo.svg')->assertDontSee('PlantCore');
         $this->get('/login')->assertOk()->assertSee('Entrar al demo interactivo');
     }
 }
