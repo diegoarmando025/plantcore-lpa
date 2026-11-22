@@ -7,6 +7,7 @@ use App\Http\Controllers\LpaBatchController;
 use App\Http\Controllers\LpaExportController;
 use App\Http\Controllers\LpaSummaryExportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PortfolioDemoController;
 use App\Http\Controllers\LpaPublicDemoController;
 Route::redirect('/','/audits');
 
@@ -15,11 +16,13 @@ Route::middleware('throttle:60,1')->group(function () {
     Route::get('/demo', [LpaPublicDemoController::class, 'index'])->name('lpa.public-demo.index');
     Route::get('/demo/audits/{audit}', [LpaPublicDemoController::class, 'show'])->name('lpa.public-demo.show');
 });
+Route::post('/demo/entrar',[PortfolioDemoController::class,'enter'])->middleware(['guest','throttle:12,1'])->name('portfolio.demo.enter');
 Route::middleware('guest')->group(function(){
  Route::get('/login',[LpaAuthController::class,'login'])->name('login');
  Route::post('/login',[LpaAuthController::class,'authenticate'])->name('login.store');
 });
 Route::middleware('auth')->group(function(){
+ Route::get('/guia',[PortfolioDemoController::class,'guide'])->name('portfolio.guide');
  Route::post('/logout',[LpaAuthController::class,'logout'])->name('logout');
  Route::get('/audits',[LpaController::class,'dashboard'])->name('lpa.dashboard');
  Route::get('/calendar',[LpaCalendarController::class,'index'])->name('lpa.calendar');

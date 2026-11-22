@@ -114,6 +114,11 @@ class ProvisionPortfolioAccess extends Command
             if ($admin->is_portfolio_owner) {
                 throw new RuntimeException('No se puede convertir la cuenta propietaria en demo.');
             }
+            if (User::query()->where('is_portfolio_demo_admin', true)->whereKeyNot($admin->id)->exists()) {
+                throw new RuntimeException('Ya existe otra cuenta de demostración habilitada.');
+            }
+            $admin->is_portfolio_demo_admin = true;
+            $admin->save();
             // A demo administrator must never retain access to real plants.
             DB::table('plant_user')->where('user_id', $admin->id)->delete();
             DB::table('plant_user')->insert([

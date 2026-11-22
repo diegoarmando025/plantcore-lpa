@@ -44,6 +44,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_portfolio_owner' => 'boolean',
+            'is_portfolio_demo_admin' => 'boolean',
         ];
     }
 }
