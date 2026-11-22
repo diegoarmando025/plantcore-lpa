@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plant;
+use App\Models\Audit;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,6 +39,11 @@ class PortfolioDemoController extends Controller
         $user = $request->user();
         $isDemo = (bool) $user->is_portfolio_demo_admin;
 
-        return view('portfolio.guide', compact('isDemo'));
+        $plantIds = DB::table('plant_user')->where('user_id', $user->id)->pluck('plant_id');
+        $sampleAudits = Audit::query()->whereIn('plant_id', $plantIds)
+            ->with('template:id,name')->orderByDesc('id')->limit(5)->get();
+        $totalAudits = Audit::query()->whereIn('plant_id', $plantIds)->count();
+
+        return view('portfolio.guide', compact('isDemo', 'sampleAudits', 'totalAudits'));
     }
 }
