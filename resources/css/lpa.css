@@ -73,3 +73,28 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .ops-step-count { flex-shrink:0; display:inline-grid; place-items:center; width:2.1rem; height:2.1rem; background:#eaf2f7; color:#315d7d; font-size:.78rem; font-weight:800; border-radius:.55rem; }
 @media (max-width: 991px) { .ops-intro { align-items:flex-start; flex-direction:column; } }
 @media (max-width: 575px) { .ops-intro { padding:1rem; } .ops-intro-actions { width:100%; flex-direction:column; } .ops-intro-actions .btn { width:100%; } }
+
+
+/* Dedicated entry page for technical reviewers and private operators. */
+.portfolio-login-page { min-height:100vh; margin:0; }
+.portfolio-login-shell { display:grid; grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr); min-height:100vh; }
+.portfolio-login-story { display:flex; flex-direction:column; justify-content:space-between; gap:3rem; background:#162c3e; color:#fff; padding:clamp(2rem,5.2vw,5rem); }
+.portfolio-login-brand { font-weight:750; font-size:1.12rem; letter-spacing:-.02em; }
+.portfolio-login-brand span { font-weight:400; color:#d3e1ec; }
+.portfolio-login-eyebrow { font-size:.73rem; font-weight:750; letter-spacing:.14em; color:#60809a; margin-bottom:1rem; }
+.portfolio-login-story .portfolio-login-eyebrow { color:#a8cada; }
+.portfolio-login-story h1 { font-size:clamp(2.2rem,4.2vw,4.4rem); font-weight:750; letter-spacing:-.05em; line-height:1.08; max-width:13ch; margin:0 0 1.5rem; }
+.portfolio-login-story p { color:#d2dee6; line-height:1.7; max-width:50ch; font-size:1.02rem; }
+.portfolio-login-features { display:flex; flex-wrap:wrap; gap:.7rem 1.3rem; font-size:.85rem; margin-top:2rem; color:#e5edf2; }
+.portfolio-login-features i { color:#7fc8b3; }
+.portfolio-login-footer { color:#a9bece; font-size:.82rem; }
+.portfolio-login-panel { display:grid; place-items:center; background:#f6f8fa; padding:2rem; }
+.portfolio-login-form { background:#fff; width:min(100%, 29rem); padding:clamp(1.5rem,3vw,3rem); border:1px solid #e6ebf0; border-radius:1.1rem; box-shadow:0 16px 46px rgba(25,45,63,.055); }
+.portfolio-login-form h2 { letter-spacing:-.025em; color:#20374b; }
+.portfolio-login-form .form-control { min-height:2.7rem; }
+.portfolio-login-form .btn-lg { min-height:3rem; font-size:.98rem; font-weight:700; background:#234b67; border-color:#234b67; }
+.portfolio-login-form .btn-lg:hover { background:#18374c; border-color:#18374c; }
+.portfolio-login-divider { display:flex; gap:1rem; align-items:center; margin:1.6rem 0; font-size:.78rem; color:#718090; }
+.portfolio-login-divider:before, .portfolio-login-divider:after { content:""; height:1px; background:#dce3ea; flex:1; }
+@media(max-width:900px) { .portfolio-login-shell { grid-template-columns:1fr; } .portfolio-login-story { gap:1.6rem; padding:2rem; } .portfolio-login-story h1 { font-size:2.2rem; max-width:24ch; margin-bottom:.7rem; } .portfolio-login-features { margin-top:1rem; } .portfolio-login-panel { padding:1.5rem; } }
+@media(max-width:575px) { .portfolio-login-story { padding:1.5rem; } .portfolio-login-story h1 { font-size:1.9rem; } .portfolio-login-features { gap:.5rem 1rem; } .portfolio-login-panel { padding:1rem; } .portfolio-login-form { padding:1.5rem; } }
