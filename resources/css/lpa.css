@@ -37,3 +37,39 @@
 .portfolio-stat-value { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 700; line-height: 1.1; margin: .7rem 0 .5rem; font-variant-numeric: tabular-nums; }
 .portfolio-step-number { font-size: .82rem; font-weight: 700; letter-spacing: .09em; color: #35617c; }
 @media (max-width: 575px) { .portfolio-hero .btn { width: 100%; } .portfolio-hero .d-flex.flex-wrap { width: 100%; } }
+
+
+/* Operational product UI: accessible focus, restrained visual hierarchy and consistent actions. */
+.app-content-header { padding-top: 1.4rem; padding-bottom: .9rem; }
+.app-content { padding-bottom: 2rem; }
+.app-content .card { border-radius: .75rem; overflow: hidden; }
+.app-content .card-header { background: #fff; border-bottom-color: #e9edf1; }
+.app-content .table thead th { color: #536474; font-size: .78rem; font-weight: 700; letter-spacing: .025em; background: #f8fafc; border-bottom-width: 1px; }
+.app-content .table tbody tr { transition: background-color .12s ease; }
+.app-content .table tbody tr:hover { background: #f6f9fc; }
+.app-content .btn { font-weight: 600; }
+.app-content .btn-primary { --bs-btn-bg: #234b67; --bs-btn-border-color: #234b67; --bs-btn-hover-bg: #18374c; --bs-btn-hover-border-color: #18374c; }
+.app-content .form-control:focus, .app-content .form-select:focus { border-color: #7391ab; box-shadow: 0 0 0 .2rem rgba(35, 75, 103, .12); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #76a3c4; outline-offset: 2px; }
+.ops-intro { display:flex; gap:1.5rem; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem; background:#fff; border:1px solid #e1e8ee; border-radius:.85rem; }
+.ops-intro h2 { color:#1e3548; letter-spacing:-.025em; }
+.ops-intro p { max-width:65ch; line-height:1.55; }
+.ops-eyebrow { font-size:.7rem; font-weight:750; letter-spacing:.11em; color:#52718a; margin-bottom:.45rem; }
+.ops-intro-actions { display:flex; gap:.65rem; flex-wrap:wrap; flex-shrink:0; }
+.app-content .ops-kpi { border-left:3px solid #345e7c; }
+.app-content .ops-kpi-attention { border-left-color:#d19a3c; }
+.app-content .ops-kpi-success { border-left-color:#37816c; }
+.ops-kpi .card-body { padding:1.25rem 1.4rem; }
+.ops-kpi-label { color:#536474; font-size:.86rem; font-weight:650; }
+.ops-kpi-number { font-size:clamp(2rem,3.7vw,2.6rem); font-weight:750; line-height:1.1; color:#1b3549; font-variant-numeric:tabular-nums; margin:.8rem 0 .55rem; letter-spacing:-.04em; }
+.ops-kpi-foot { color:#667787; font-size:.8rem; line-height:1.4; }
+.ops-kpi-foot a { color:#235a7c; text-decoration:none; }
+.ops-kpi-foot a:hover { text-decoration:underline; }
+.ops-table-link { text-decoration:none; font-weight:700; color:#215677; }
+.ops-table-link:hover { text-decoration:underline; }
+.ops-level { display:inline-block; background:#ebf3f8; border:1px solid #d7e5ee; border-radius:.35rem; padding:.22rem .5rem; font-size:.8rem; font-weight:750; color:#315772; }
+.ops-flow-step { display:flex; gap:.85rem; align-items:flex-start; padding:.7rem 0; }
+.ops-flow-step + .ops-flow-step { border-top:1px solid #edf1f4; }
+.ops-step-count { flex-shrink:0; display:inline-grid; place-items:center; width:2.1rem; height:2.1rem; background:#eaf2f7; color:#315d7d; font-size:.78rem; font-weight:800; border-radius:.55rem; }
+@media (max-width: 991px) { .ops-intro { align-items:flex-start; flex-direction:column; } }
+@media (max-width: 575px) { .ops-intro { padding:1rem; } .ops-intro-actions { width:100%; flex-direction:column; } .ops-intro-actions .btn { width:100%; } }
