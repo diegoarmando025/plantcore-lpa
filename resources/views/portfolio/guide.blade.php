@@ -1,11 +1,11 @@
 @extends('layouts.lpa')
-@section('title','Centro de evaluación · PlantCore LPA')
+@section('title','Centro de evaluación · DevAlejandre · LPA')
 @section('heading','Centro de evaluación')
 @section('content')
 <section class="portfolio-hero mb-4">
   <div class="d-flex flex-column flex-lg-row gap-3 justify-content-between align-items-lg-center">
     <div>
-      <div class="portfolio-eyebrow mb-2"><i class="bi bi-shield-check me-1"></i> PLANTCORE / AUDITORÍAS POR CAPAS</div>
+      <div class="portfolio-eyebrow mb-2"><i class="bi bi-shield-check me-1"></i> DEVALEJANDRE / AUDITORÍAS POR CAPAS</div>
       <h2 class="h3 fw-semibold mb-2">Auditorías de proceso, del plan a la acción correctiva.</h2>
       <p class="mb-0 portfolio-subtitle">Explora un flujo operativo real: programa, ejecuta, registra hallazgos y consulta indicadores. Los datos de este entorno son ficticios.</p>
     </div>
@@ -44,5 +44,5 @@
 <tr><td class="fw-semibold">#{{ $audit->id }}</td><td>{{ $audit->template?->name }}</td><td><span class="badge {{ $audit->status === 'completed' ? 'text-bg-success' : 'text-bg-warning' }}">{{ $audit->status === 'completed' ? 'Completada' : 'Programada' }}</span></td><td class="text-end"><a href="{{ route('lpa.audits.show', $audit) }}" class="btn btn-sm btn-outline-secondary">Abrir</a></td></tr>
 @empty<tr><td colspan="4" class="text-center text-secondary py-4">Todavía no hay auditorías visibles. Puedes programar una desde esta pantalla.</td></tr>@endforelse
 </tbody></table></div></div></div>
-<p class="small text-secondary">PlantCore LPA es una demostración funcional de software industrial desarrollada con Laravel. No incluye aún suscripciones ni separación multiempresa para ofrecerse como SaaS comercial.</p>
+<p class="small text-secondary">DevAlejandre · LPA es una demostración funcional de software industrial desarrollada con Laravel. No incluye aún suscripciones ni separación multiempresa para ofrecerse como SaaS comercial.</p>
 @endsection
