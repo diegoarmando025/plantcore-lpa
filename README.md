@@ -1,48 +1,57 @@
 # PlantCore LPA
 
-Sistema de auditorías por capas (Layered Process Audits) para operaciones industriales. Proyecto de portafolio desarrollado en Laravel y AdminLTE, con datos de demostración ficticios.
+A Laravel application for Layered Process Audits (LPA), designed around fictional manufacturing workflows. It demonstrates audit planning, configurable checklists, execution, corrective actions, role-scoped access, and operational reporting.
 
-## Demo interactiva para evaluadores
+## Interactive evaluation
 
-**[Entrar a PlantCore LPA](https://lpa.devalejandre.com/login)** y elegir **Entrar como administrador demo**. El visitante puede programar auditorías de ejemplo, responder cuestionarios, registrar incumplimientos, gestionar acciones correctivas y explorar calendario, reportes y exportaciones en la aplicación real.
+[Open PlantCore LPA](https://lpa.devalejandre.com/login) and select **Entrar como administrador demo**.
 
-Los usuarios comparten los registros ficticios de la planta `DEMO-PUBLIC`; sus cambios se pueden restaurar mediante un comando privado. No se deben introducir datos personales ni de clientes. [Recorrido interactivo](docs/INTERACTIVE_PORTFOLIO_DEMO.md) · [Traceability](https://traceability.devalejandre.com/login) · [Service Desk](https://service-desk.devalejandre.com/login).
+The live demo supports scheduling and completing audits, recording findings, monitoring corrective actions, browsing the calendar, and exporting reports. Visitors use shared fictional records belonging to a dedicated demo plant. Changes may remain visible to other visitors until the scenario is restored. Do not enter personal, confidential, or customer information.
 
-## Funcionalidades
+[Reviewer walkthrough](docs/INTERACTIVE_PORTFOLIO_DEMO.md) · [Architecture](docs/ARCHITECTURE.md)
 
-- Planeación individual y masiva de auditorías diarias o semanales, con validación de duplicados.
-- Cuestionarios por nivel LPA (1 a 5), administración por supervisor y protección de preguntas de plantillas utilizadas.
-- Calendario mensual y ejecución de auditorías con respuestas **Cumple / No cumple / No aplica**.
-- Generación de acciones correctivas por incumplimiento, responsables, fechas compromiso y seguimiento de vencimientos.
-- Indicadores de conformidad y cumplimiento por nivel y por responsable; exportaciones CSV.
-- Control de acceso por rol y por planta, con pruebas automatizadas de aislamiento.
+## Implemented workflows
 
-## Vista pública de solo lectura (complementaria a la demo interactiva)
+- Individual and batch audit scheduling, with daily or weekly frequencies and duplicate detection
+- Reusable checklists across five audit levels
+- Checklist version safety: templates used in scheduled audits cannot have their questions silently rewritten
+- Monthly calendar and audit execution with pass, fail, and not-applicable answers
+- Automatic corrective actions for failed checks
+- Corrective-action ownership, target dates, overdue tracking, and closure
+- Compliance indicators, audit trends, level and owner summaries, and CSV exports
+- Role-based access for viewers, auditors, and supervisors, scoped to assigned plants
+- Public read-only sample scenarios and a separate interactive fictional dataset
+- Automated tests for workflow behavior, reporting, permissions, and demo isolation
 
-La ruta opcional `/demo` permite recorrer auditorías, filtrar por nivel/estado y consultar hallazgos **ficticios** sin iniciar sesión ni compartir credenciales administrativas. Los datos viven en una planta separada (`DEMO-PUBLIC`) y la función está desactivada por defecto. El acceso interno `/audits` continúa protegido por sesión.
+## Technology
 
-[Instrucciones de despliegue, habilitación y reversión](docs/PUBLIC_DEMO_DEPLOYMENT.md).
+- PHP 8.4 and Laravel 13
+- Blade, Bootstrap 5, AdminLTE 4, Vite
+- SQLite for local development; MySQL 8 verification in CI
+- PHPUnit and GitHub Actions
 
-## Documentación técnica
+## Architecture and permissions
 
-- [Arquitectura, modelo de datos, permisos y límites](docs/ARCHITECTURE.md)
-- [Guía para evaluar el sistema y obtener capturas reales](docs/REVIEWER_GUIDE.md)
+Audit records belong to plants. Users access plants through explicit memberships, and each membership defines a role.
 
-## Tecnologías
+| Role | Read audits | Execute assigned audits | Manage templates and actions |
+| --- | --- | --- | --- |
+| Viewer | Yes | No | No |
+| Auditor | Yes | Yes | No |
+| Supervisor | Yes | Yes | Yes |
 
-PHP 8.4, Laravel 13, SQLite (desarrollo/pruebas), Blade, Bootstrap 5, AdminLTE 4, Vite, PHPUnit y GitHub Actions.
+The application uses Laravel controllers, Eloquent models, Blade views, database transactions, and permission checks at the plant boundary. Audit completion uses a locked database record to prevent duplicate execution and revalidates permissions before writing answers and corrective actions.
 
-## Instalación local
+This is a single-organization portfolio application, not a commercial multi-tenant platform.
+
+## Local setup
+
+Use a disposable development database. Do not copy real operational data or credentials into the project.
 
 ```bash
 composer install
 cp .env.example .env
 php artisan key:generate
-```
-
-Configura `DB_CONNECTION=sqlite` en `.env` y crea `database/database.sqlite` si no existe. En PowerShell puedes usar `Copy-Item .env.example .env` en lugar de `cp`. Después:
-
-```bash
 php artisan migrate
 php artisan db:seed --class=LpaPortfolioSeeder
 npm ci
@@ -51,55 +60,39 @@ php artisan test
 php artisan serve
 ```
 
-## Escenario reproducible
+For a SQLite environment, configure `DB_CONNECTION=sqlite` and create `database/database.sqlite` before migrating. On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp`.
 
-`php artisan db:seed --class=LpaPortfolioSeeder` crea una planta ficticia, dos cuestionarios (niveles 1 y 2), seis auditorías (cuatro completadas, dos programadas) y una acción correctiva vencida. Es seguro ejecutarlo de nuevo: no duplica los registros de demostración y no modifica otras plantas. El seeder solo funciona en entornos `local` y `testing`; **no ejecutes `migrate:fresh` sobre una base con datos que quieras conservar**.
+The local seeder creates fictional templates and audits, including a completed audit with a corrective action and pending work. It is intended for development and test environments; never run destructive migration commands against important databases.
 
-Para iniciar sesión, elige una contraseña **solo para tu instalación local** al usuario `demo.supervisor@lpa.example.invalid`:
+For manual local login, assign a private password to the sample account using Laravel Tinker. Credentials are not committed to Git.
 
-```bash
-php artisan tinker
-```
+## Key routes
 
-```php
-$user = App\Models\User::where('email', 'demo.supervisor@lpa.example.invalid')->firstOrFail();
-$user->password = 'REEMPLAZA-CON-UNA-CONTRASENA-LOCAL-SEGURA';
-$user->save();
-```
+| Area | Route |
+| --- | --- |
+| Dashboard | `/audits` |
+| Batch planning | `/audits/batch` |
+| Calendar | `/calendar` |
+| Checklists | `/templates` |
+| Corrective actions | `/actions` |
+| Audit reporting | `/reports` |
+| Trends | `/reports/trends` |
+| CSV exports | `/exports/audits`, `/exports/actions`, `/exports/summary` |
 
-El usuario auditor es `demo.auditor@lpa.example.invalid` y también recibe una contraseña aleatoria sin publicar. Abre `http://127.0.0.1:8000/login`. No se incluyen credenciales predecibles en Git.
-
-Una evaluación de principio a fin: entra como supervisor, revisa `/audits`, abre una auditoría programada y complétala, consulta el indicador de conformidad en `/reports` y administra el hallazgo en `/actions`.
-
-## Rutas principales
-
-| Función | Ruta |
-|---|---|
-| Auditorías | `/audits` |
-| Programación masiva | `/audits/batch` |
-| Calendario | `/calendar` |
-| Cuestionarios | `/templates` |
-| Acciones correctivas | `/actions` |
-| Indicadores | `/reports` |
-| Exportaciones | `/exports/audits`, `/exports/actions` |
-
-## Verificación local y automatizada
+## Verification
 
 ```bash
 php artisan test
 npm run build
 ```
 
-GitHub Actions ejecuta instalación de dependencias, compilación de activos y pruebas sobre cada push o pull request a `main`. El escenario de demostración tiene una prueba que comprueba repetibilidad, aislamiento por planta y acceso a auditorías, reportes y acciones.
+GitHub Actions runs the automated test suite and verifies the built assets on pull requests. The test coverage includes multi-plant isolation, role restrictions, audit and corrective-action workflows, reporting, and sample data restoration.
 
-## Calidad y seguridad
+## Related projects
 
-Las pruebas cubren programación, ejecución, acciones, permisos por rol, aislamiento entre plantas, indicadores y exportaciones. Las salidas CSV se protegen contra fórmulas inyectadas. Ejecuta las pruebas antes de publicar nuevas versiones.
+- [PlantCore Traceability](https://github.com/diegoarmando025/industrial-traceability-api)
+- [PlantCore Service Desk](https://github.com/diegoarmando025/plantcore-service-desk)
 
-## Otro sistema industrial del portafolio
+## Scope
 
-[PlantCore Traceability — aplicación web y API REST](https://github.com/diegoarmando025/industrial-traceability-api): registro de cajas, validación de lecturas, control de liberación e historial por usuario. Es un repositorio independiente; no comparte datos de ejecución con PlantCore LPA.
-
-## Alcance
-
-Demostración funcional de arquitectura y flujos industriales. No incluye información, código ni reglas propietarias de clientes. No está configurado para producción: antes de un despliegue real se requiere configuración segura del entorno, HTTPS, respaldo, monitorización y revisión de acceso.
+All examples are fictional. The project does not contain customer-specific rules, operational credentials, or proprietary source code. A production implementation would need environment-specific security, backups, monitoring, and operational review.
