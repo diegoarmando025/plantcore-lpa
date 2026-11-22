@@ -44,5 +44,5 @@
 <tr><td class="fw-semibold">#{{ $audit->id }}</td><td>{{ $audit->template?->name }}</td><td><span class="badge {{ $audit->status === 'completed' ? 'text-bg-success' : 'text-bg-warning' }}">{{ $audit->status === 'completed' ? 'Completada' : 'Programada' }}</span></td><td class="text-end"><a href="{{ route('lpa.audits.show', $audit) }}" class="btn btn-sm btn-outline-secondary">Abrir</a></td></tr>
 @empty<tr><td colspan="4" class="text-center text-secondary py-4">Todavía no hay auditorías visibles. Puedes programar una desde esta pantalla.</td></tr>@endforelse
 </tbody></table></div></div></div>
-<p class="small text-secondary">DevAlejandre · LPA es una demostración funcional de software industrial desarrollada con Laravel. No incluye aún suscripciones ni separación multiempresa para ofrecerse como SaaS comercial.</p>
+<div class="portfolio-next-step d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4"><div><strong>¿Necesitas digitalizar auditorías en tu operación?</strong><p class="small text-secondary mb-0">Esta aplicación muestra programación, ejecución, hallazgos y acciones correctivas. Se pueden evaluar extensiones e integraciones conforme al alcance de cada proyecto.</p></div><a href="https://devalejandre.com" class="btn btn-outline-primary" rel="noopener">Conocer DevAlejandre</a></div>
 @endsection

@@ -42,7 +42,7 @@ Audit records belong to plants. Users access plants through explicit memberships
 
 The application uses Laravel controllers, Eloquent models, Blade views, database transactions, and permission checks at the plant boundary. Audit completion uses a locked database record to prevent duplicate execution and revalidates permissions before writing answers and corrective actions.
 
-This is a single-organization portfolio application, not a commercial multi-tenant platform.
+The current implementation demonstrates plant-scoped audit workflows with role-based access, transaction-safe completion and corrective-action tracking. Organization-specific deployment requirements can be evaluated separately.
 
 ## Local setup
 
