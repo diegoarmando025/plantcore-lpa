@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\LpaAuthController;
 use App\Http\Controllers\LpaController;
+use App\Http\Controllers\LpaTrendsController;
 use App\Http\Controllers\LpaTemplateController;
 use App\Http\Controllers\LpaCalendarController;
 use App\Http\Controllers\LpaBatchController;
@@ -45,5 +46,7 @@ Route::middleware('auth')->group(function(){
  Route::get('/actions',[LpaController::class,'actions'])->name('lpa.actions');
  Route::post('/actions/{action}/due-date',[LpaController::class,'updateAction'])->name('lpa.actions.update');
  Route::get('/reports',[LpaController::class,'report'])->name('lpa.reports');
+ Route::get('/reports/trends',[LpaTrendsController::class,'index'])->name('lpa.trends');
+ Route::get('/reports/trends/export',[LpaTrendsController::class,'export'])->name('lpa.trends.export');
  Route::post('/actions/{action}/close',[LpaController::class,'closeAction'])->name('lpa.actions.close');
 });

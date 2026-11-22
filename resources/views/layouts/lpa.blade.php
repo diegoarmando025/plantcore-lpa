@@ -13,6 +13,7 @@
 <li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.templates.*') ? 'active' : '' }}" href="{{ route('lpa.templates.index') }}"><i class="nav-icon bi bi-list-check"></i><p>Cuestionarios</p></a></li>
 <li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.actions*') ? 'active' : '' }}" href="{{ route('lpa.actions') }}"><i class="nav-icon bi bi-exclamation-triangle"></i><p>Acciones correctivas</p></a></li>
 <li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.reports') ? 'active' : '' }}" href="{{ route('lpa.reports') }}"><i class="nav-icon bi bi-bar-chart"></i><p>Indicadores</p></a></li>
+<li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.trends*') ? 'active' : '' }}" href="{{ route('lpa.trends') }}"><i class="nav-icon bi bi-graph-up"></i><p>Tendencias mensuales</p></a></li>
 </ul></nav></div></aside>
 <main class="app-main"><div class="app-content-header"><div class="container-fluid"><h1 class="h4 mb-0">@yield('heading', 'Auditorías')</h1></div></div>
 <div class="app-content"><div class="container-fluid">@if(session('ok'))<div class="alert alert-success py-2">{{ session('ok') }}</div>@endif
