@@ -2,7 +2,7 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@yield('title', 'LPA') · DevAlejandre</title>
     <link rel="icon" href="https://devalejandre.com/assets/brand/favicon.ico" sizes="any">@vite(['resources/css/lpa.css','resources/js/lpa.js'])</head>
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary"><div class="app-wrapper">
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary" data-bs-theme="light"><div class="app-wrapper">
 <nav class="app-header navbar navbar-expand bg-body border-bottom"><div class="container-fluid">
 <button class="nav-link btn" type="button" data-lte-toggle="sidebar" aria-label="Abrir menú"><i class="bi bi-list"></i></button>
 <div class="ms-auto d-flex align-items-center gap-3"><span class="text-secondary small">{{ auth()->user()->name }}</span><form method="POST" action="{{ route('logout') }}">@csrf<button class="btn btn-sm btn-outline-secondary">Salir</button></form></div></div></nav>
