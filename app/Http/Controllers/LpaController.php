@@ -80,8 +80,10 @@ class LpaController extends Controller
                 throw \Illuminate\Validation\ValidationException::withMessages(["answers.$q->id.note"=>'Describe el hallazgo.']);
             }
         }
-        DB::transaction(function()use($audit,$questions,$validated){
+        DB::transaction(function()use($audit,$questions,$validated,$r){
             $locked=Audit::query()->lockForUpdate()->findOrFail($audit->id);
+            LpaAccess::enforce($r->user()->id,$locked->plant_id,'audit');
+            abort_unless($locked->assigned_to===$r->user()->id || LpaAccess::role($r->user()->id,$locked->plant_id)==='supervisor',403);
             abort_if($locked->status==='completed',409,'La auditoría ya fue completada.');
             foreach($questions as $q){
                 $answer=$validated['answers'][$q->id];
