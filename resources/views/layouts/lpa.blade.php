@@ -7,6 +7,7 @@
 <div class="ms-auto d-flex align-items-center gap-3"><span class="text-secondary small">{{ auth()->user()->name }}</span><form method="POST" action="{{ route('logout') }}">@csrf<button class="btn btn-sm btn-outline-secondary">Salir</button></form></div></div></nav>
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"><div class="sidebar-brand"><a href="{{ route('lpa.dashboard') }}" class="brand-link"><span class="brand-text fw-semibold">PlantCore LPA</span></a></div>
 <div class="sidebar-wrapper"><nav class="mt-3"><ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Navegación">
+<li class="nav-item"><a class="nav-link {{ request()->routeIs('portfolio.guide') ? 'active' : '' }}" href="{{ route('portfolio.guide') }}"><i class="nav-icon bi bi-compass"></i><p>Guía de evaluación</p></a></li>
 <li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.dashboard') ? 'active' : '' }}" href="{{ route('lpa.dashboard') }}"><i class="nav-icon bi bi-clipboard-check"></i><p>Auditorías</p></a></li>
 <li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.calendar') ? 'active' : '' }}" href="{{ route('lpa.calendar') }}"><i class="nav-icon bi bi-calendar3"></i><p>Calendario</p></a></li>
 <li class="nav-item"><a class="nav-link {{ request()->routeIs('lpa.templates.*') ? 'active' : '' }}" href="{{ route('lpa.templates.index') }}"><i class="nav-icon bi bi-list-check"></i><p>Cuestionarios</p></a></li>
