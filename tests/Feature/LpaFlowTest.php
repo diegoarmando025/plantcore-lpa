@@ -48,4 +48,18 @@ class LpaFlowTest extends TestCase {
   $this->actingAs($u)->get("/audits/$a->id")->assertNotFound();
   $this->actingAs($u)->post("/audits/$a->id/complete",[])->assertNotFound();
  }
+ public function test_revoked_auditor_cannot_complete_previously_assigned_audit():void {
+  [$p,$u,$t,$q]=$this->fixtures('auditor');
+  $audit=Audit::create([
+   'plant_id'=>$p->id,'audit_template_id'=>$t->id,'assigned_to'=>$u->id,
+   'created_by'=>$u->id,'scheduled_for'=>'2026-12-01',
+  ]);
+  DB::table('plant_user')->where('plant_id',$p->id)->where('user_id',$u->id)->delete();
+  $this->actingAs($u)->post("/audits/{$audit->id}/complete",[
+   'answers'=>[$q->id=>['result'=>'pass']],
+  ])->assertNotFound();
+  $this->assertSame('planned',$audit->fresh()->status);
+  $this->assertDatabaseCount('audit_answers',0);
+ }
+
 }
