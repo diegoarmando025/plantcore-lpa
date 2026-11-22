@@ -98,3 +98,38 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .portfolio-login-divider:before, .portfolio-login-divider:after { content:""; height:1px; background:#dce3ea; flex:1; }
 @media(max-width:900px) { .portfolio-login-shell { grid-template-columns:1fr; } .portfolio-login-story { gap:1.6rem; padding:2rem; } .portfolio-login-story h1 { font-size:2.2rem; max-width:24ch; margin-bottom:.7rem; } .portfolio-login-features { margin-top:1rem; } .portfolio-login-panel { padding:1.5rem; } }
 @media(max-width:575px) { .portfolio-login-story { padding:1.5rem; } .portfolio-login-story h1 { font-size:1.9rem; } .portfolio-login-features { gap:.5rem 1rem; } .portfolio-login-panel { padding:1rem; } .portfolio-login-form { padding:1.5rem; } }
+
+
+/* Product-audit fix: Bootstrap/AdminLTE dark-mode text tokens must never
+   render light text on our intentionally light card surfaces. */
+.app-content .portfolio-stat,
+.app-content .portfolio-step,
+.app-content .ops-kpi,
+.app-content .ops-intro {
+    color: #203649;
+    --bs-body-color: #203649;
+    --bs-secondary-color: #586a7b;
+    --bs-heading-color: #203649;
+    --bs-card-color: #203649;
+    --bs-card-bg: #fff;
+}
+.app-content .portfolio-stat .h5,
+.app-content .portfolio-step .h6,
+.app-content .portfolio-step h3,
+.app-content .portfolio-stat-value,
+.app-content .ops-kpi .ops-kpi-number { color: #203649; }
+.app-content .portfolio-step .text-secondary,
+.app-content .portfolio-stat .text-secondary,
+.app-content .ops-kpi .text-secondary,
+.app-content .ops-intro .text-secondary { color: #586a7b !important; }
+.app-content .portfolio-stat .small,
+.app-content .portfolio-step .small { line-height: 1.5; }
+.app-content .portfolio-step a.btn-outline-primary {
+    color: #24587b;
+    border-color: #87aaca;
+    --bs-btn-hover-bg: #24587b;
+    --bs-btn-hover-border-color: #24587b;
+    --bs-btn-hover-color: #fff;
+}
+.portfolio-login-form { color:#203649; --bs-body-color:#203649; --bs-secondary-color:#586a7b; --bs-heading-color:#203649; }
+.portfolio-login-form .text-secondary { color:#586a7b !important; }

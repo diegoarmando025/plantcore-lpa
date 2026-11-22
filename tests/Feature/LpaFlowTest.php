@@ -72,4 +72,15 @@ class LpaFlowTest extends TestCase {
    ->assertDontSee('Completar auditoría');
  }
 
+ public function test_audit_dashboard_displays_checklist_level():void {
+  [$p,$u,$t,$q]=$this->fixtures();
+  $t->update(['level'=>3]);
+  Audit::create([
+   'plant_id'=>$p->id,'audit_template_id'=>$t->id,
+   'assigned_to'=>$u->id,'created_by'=>$u->id,
+   'scheduled_for'=>'2026-12-01',
+  ]);
+  $this->actingAs($u)->get('/audits')->assertOk()->assertSee('L3');
+ }
+
 }
