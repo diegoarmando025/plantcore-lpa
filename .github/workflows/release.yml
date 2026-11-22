@@ -1,0 +1,92 @@
+name: Publish verified lpa source release
+
+on:
+  workflow_run:
+    workflows: ["Laravel tests"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out tested commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build production assets
+        run: |
+          npm ci
+          npm run build
+          test -s public/build/manifest.json
+
+      - name: Package the tested source revision
+        env:
+          REVISION: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$REVISION"
+          short="${REVISION:0:12}"
+          package="PlantCore_LPA_${short}.zip"
+          mkdir -p release-stage/application release-stage/public-assets
+          git archive --format=tar HEAD | tar -xf - -C release-stage/application
+          test ! -e release-stage/application/.env
+          test ! -d release-stage/application/vendor
+          test ! -d release-stage/application/node_modules
+          test ! -e release-stage/application/database/database.sqlite
+          cp -a public/build release-stage/application/public/build
+          cp -a public/build release-stage/public-assets/build
+          printf '%s\n' "$REVISION" > release-stage/DEPLOYED_COMMIT
+          cat > release-stage/INSTALLATION_NOTES.txt <<'NOTES'
+          Versioned source package for an existing Laravel application.
+          application/ contains the Laravel source and compiled front-end files.
+          public-assets/build/ contains the same compiled Vite assets for the site's configured web root.
+          Back up the current application and database before applying any update.
+          Preserve the existing .env, APP_KEY, database, vendor, storage, and web-root front controller.
+          Do not extract public-assets over a configured front controller.
+          Match the target PHP version and installed Composer dependencies to composer.lock.
+          Run only reviewed, additive database migrations when required.
+          The included DEPLOYED_COMMIT identifies the exact source revision tested by CI.
+          Automated CI does not replace a post-deployment smoke test.
+          NOTES
+          (
+            cd release-stage
+            zip -qr "../$package" application public-assets DEPLOYED_COMMIT INSTALLATION_NOTES.txt
+          )
+          unzip -t "$package" >/dev/null
+          if unzip -Z -1 "$package" | grep -Eq '(^|/)\.env$|(^|/)vendor/|(^|/)node_modules/|(^|/)database/database\.sqlite$'; then
+            echo "Unexpected private/runtime file in release." >&2
+            exit 1
+          fi
+          sha256sum "$package" > "$package.sha256"
+          echo "PACKAGE=$package" >> "$GITHUB_ENV"
+          echo "TAG=lpa-$short" >> "$GITHUB_ENV"
+
+      - name: Publish ZIP and SHA-256 checksum
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVISION: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release already published: $TAG"
+            exit 0
+          fi
+          gh release create "$TAG" "$PACKAGE" "$PACKAGE.sha256" \
+            --target "$REVISION" \
+            --title "lpa | ${REVISION:0:12}" \
+            --notes "Verified source revision: $REVISION. Includes compiled Vite assets and installation notes. Does not contain credentials, dependencies, or runtime data."
