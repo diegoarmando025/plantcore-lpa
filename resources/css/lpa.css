@@ -148,3 +148,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .portfolio-login-page .portfolio-login-form .form-control:focus {border-color:#547f9f!important;box-shadow:0 0 0 .2rem rgba(35,75,103,.12)}
 .portfolio-login-page .portfolio-login-form .btn-outline-primary {color:#234b67;border-color:#799cb5}
 .portfolio-login-page .portfolio-login-form .btn-outline-primary:hover {color:#fff;background:#234b67}
+
+
+/* Reviewer visual QA: light operational workspace, dark navigation and navy heroes. */
+body[data-bs-theme="light"] .app-main {background:#f6f8fb;color:#203649}
+body[data-bs-theme="light"] .app-content .card {background:#fff;color:#203649;--bs-body-color:#203649;--bs-secondary-color:#5d6b79}
+body[data-bs-theme="light"] .app-content .card-header {background:#fff;color:#203649}
+body[data-bs-theme="light"] .app-content .table {color:#203649;--bs-table-color:#203649;--bs-table-bg:#fff;--bs-table-striped-bg:#f7f9fb;--bs-table-hover-bg:#f3f7fa}
+body[data-bs-theme="light"] .app-content .table thead th {background:#f1f5f9;color:#46576a}
+body[data-bs-theme="light"] .app-content .text-secondary {color:#5d6b79!important}
+body[data-bs-theme="light"] .app-content .portfolio-hero .portfolio-subtitle {color:#d1e0e9!important}
+body[data-bs-theme="light"] .app-content .portfolio-hero {color:#fff}
+body[data-bs-theme="light"] .app-content .portfolio-hero .portfolio-eyebrow {color:#b0d0de}
+body[data-bs-theme="light"] .app-content .card .card-header h2,
+body[data-bs-theme="light"] .app-content .card .card-title {color:#203649}
