@@ -62,6 +62,16 @@ class LpaFlowTest extends TestCase {
   $this->assertDatabaseCount('audit_answers',0);
  }
 
+ public function test_auditor_receives_guided_completion_form():void {
+  [$p,$u,$t,$q]=$this->fixtures('auditor');
+  $a=Audit::create(['plant_id'=>$p->id,'audit_template_id'=>$t->id,'assigned_to'=>$u->id,'created_by'=>$u->id,'scheduled_for'=>'2026-12-01']);
+  $this->actingAs($u)->get("/audits/{$a->id}")->assertOk()
+   ->assertSee('lpa-completion-form')
+   ->assertSee('lpa-answer-result')
+   ->assertSee('lpa-answer-progress')
+   ->assertSee('documenta la desviación');
+ }
+
  public function test_viewer_sees_read_only_audit_instead_of_completion_form():void {
   [$p,$u,$t,$q]=$this->fixtures('viewer');
   $auditor=User::factory()->create();
