@@ -32,7 +32,7 @@ class LpaController extends Controller
         if(!empty($filters['status'])) $base->where('status',$filters['status']);
         if(!empty($filters['from'])) $base->whereDate('scheduled_for','>=',$filters['from']);
         if(!empty($filters['to'])) $base->whereDate('scheduled_for','<=',$filters['to']);
-        $audits=$base->with(['template:id,name,area','assignee:id,name'])->latest('id')->paginate(15)->withQueryString();
+        $audits=$base->with(['template:id,name,area,level','assignee:id,name'])->latest('id')->paginate(15)->withQueryString();
         $canSchedule=DB::table('plant_user')->where('user_id',$r->user()->id)->whereIn('role',['auditor','supervisor'])->exists();
         return view('lpa.dashboard',compact('counts','audits','filters','canSchedule'));
     }
