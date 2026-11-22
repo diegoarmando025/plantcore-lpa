@@ -62,4 +62,14 @@ class LpaFlowTest extends TestCase {
   $this->assertDatabaseCount('audit_answers',0);
  }
 
+ public function test_viewer_sees_read_only_audit_instead_of_completion_form():void {
+  [$p,$u,$t,$q]=$this->fixtures('viewer');
+  $auditor=User::factory()->create();
+  DB::table('plant_user')->insert(['plant_id'=>$p->id,'user_id'=>$auditor->id,'role'=>'auditor']);
+  $a=Audit::create(['plant_id'=>$p->id,'audit_template_id'=>$t->id,'assigned_to'=>$auditor->id,'created_by'=>$auditor->id,'scheduled_for'=>'2026-12-01']);
+  $this->actingAs($u)->get("/audits/{$a->id}")->assertOk()
+   ->assertSee('solo el auditor asignado')
+   ->assertDontSee('Completar auditoría');
+ }
+
 }

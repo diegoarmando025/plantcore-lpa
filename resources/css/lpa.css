@@ -37,3 +37,64 @@
 .portfolio-stat-value { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 700; line-height: 1.1; margin: .7rem 0 .5rem; font-variant-numeric: tabular-nums; }
 .portfolio-step-number { font-size: .82rem; font-weight: 700; letter-spacing: .09em; color: #35617c; }
 @media (max-width: 575px) { .portfolio-hero .btn { width: 100%; } .portfolio-hero .d-flex.flex-wrap { width: 100%; } }
+
+
+/* Operational product UI: accessible focus, restrained visual hierarchy and consistent actions. */
+.app-content-header { padding-top: 1.4rem; padding-bottom: .9rem; }
+.app-content { padding-bottom: 2rem; }
+.app-content .card { border-radius: .75rem; overflow: hidden; }
+.app-content .card-header { background: #fff; border-bottom-color: #e9edf1; }
+.app-content .table thead th { color: #536474; font-size: .78rem; font-weight: 700; letter-spacing: .025em; background: #f8fafc; border-bottom-width: 1px; }
+.app-content .table tbody tr { transition: background-color .12s ease; }
+.app-content .table tbody tr:hover { background: #f6f9fc; }
+.app-content .btn { font-weight: 600; }
+.app-content .btn-primary { --bs-btn-bg: #234b67; --bs-btn-border-color: #234b67; --bs-btn-hover-bg: #18374c; --bs-btn-hover-border-color: #18374c; }
+.app-content .form-control:focus, .app-content .form-select:focus { border-color: #7391ab; box-shadow: 0 0 0 .2rem rgba(35, 75, 103, .12); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #76a3c4; outline-offset: 2px; }
+.ops-intro { display:flex; gap:1.5rem; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem; background:#fff; border:1px solid #e1e8ee; border-radius:.85rem; }
+.ops-intro h2 { color:#1e3548; letter-spacing:-.025em; }
+.ops-intro p { max-width:65ch; line-height:1.55; }
+.ops-eyebrow { font-size:.7rem; font-weight:750; letter-spacing:.11em; color:#52718a; margin-bottom:.45rem; }
+.ops-intro-actions { display:flex; gap:.65rem; flex-wrap:wrap; flex-shrink:0; }
+.app-content .ops-kpi { border-left:3px solid #345e7c; }
+.app-content .ops-kpi-attention { border-left-color:#d19a3c; }
+.app-content .ops-kpi-success { border-left-color:#37816c; }
+.ops-kpi .card-body { padding:1.25rem 1.4rem; }
+.ops-kpi-label { color:#536474; font-size:.86rem; font-weight:650; }
+.ops-kpi-number { font-size:clamp(2rem,3.7vw,2.6rem); font-weight:750; line-height:1.1; color:#1b3549; font-variant-numeric:tabular-nums; margin:.8rem 0 .55rem; letter-spacing:-.04em; }
+.ops-kpi-foot { color:#667787; font-size:.8rem; line-height:1.4; }
+.ops-kpi-foot a { color:#235a7c; text-decoration:none; }
+.ops-kpi-foot a:hover { text-decoration:underline; }
+.ops-table-link { text-decoration:none; font-weight:700; color:#215677; }
+.ops-table-link:hover { text-decoration:underline; }
+.ops-level { display:inline-block; background:#ebf3f8; border:1px solid #d7e5ee; border-radius:.35rem; padding:.22rem .5rem; font-size:.8rem; font-weight:750; color:#315772; }
+.ops-flow-step { display:flex; gap:.85rem; align-items:flex-start; padding:.7rem 0; }
+.ops-flow-step + .ops-flow-step { border-top:1px solid #edf1f4; }
+.ops-step-count { flex-shrink:0; display:inline-grid; place-items:center; width:2.1rem; height:2.1rem; background:#eaf2f7; color:#315d7d; font-size:.78rem; font-weight:800; border-radius:.55rem; }
+@media (max-width: 991px) { .ops-intro { align-items:flex-start; flex-direction:column; } }
+@media (max-width: 575px) { .ops-intro { padding:1rem; } .ops-intro-actions { width:100%; flex-direction:column; } .ops-intro-actions .btn { width:100%; } }
+
+
+/* Dedicated entry page for technical reviewers and private operators. */
+.portfolio-login-page { min-height:100vh; margin:0; }
+.portfolio-login-shell { display:grid; grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr); min-height:100vh; }
+.portfolio-login-story { display:flex; flex-direction:column; justify-content:space-between; gap:3rem; background:#162c3e; color:#fff; padding:clamp(2rem,5.2vw,5rem); }
+.portfolio-login-brand { font-weight:750; font-size:1.12rem; letter-spacing:-.02em; }
+.portfolio-login-brand span { font-weight:400; color:#d3e1ec; }
+.portfolio-login-eyebrow { font-size:.73rem; font-weight:750; letter-spacing:.14em; color:#60809a; margin-bottom:1rem; }
+.portfolio-login-story .portfolio-login-eyebrow { color:#a8cada; }
+.portfolio-login-story h1 { font-size:clamp(2.2rem,4.2vw,4.4rem); font-weight:750; letter-spacing:-.05em; line-height:1.08; max-width:13ch; margin:0 0 1.5rem; }
+.portfolio-login-story p { color:#d2dee6; line-height:1.7; max-width:50ch; font-size:1.02rem; }
+.portfolio-login-features { display:flex; flex-wrap:wrap; gap:.7rem 1.3rem; font-size:.85rem; margin-top:2rem; color:#e5edf2; }
+.portfolio-login-features i { color:#7fc8b3; }
+.portfolio-login-footer { color:#a9bece; font-size:.82rem; }
+.portfolio-login-panel { display:grid; place-items:center; background:#f6f8fa; padding:2rem; }
+.portfolio-login-form { background:#fff; width:min(100%, 29rem); padding:clamp(1.5rem,3vw,3rem); border:1px solid #e6ebf0; border-radius:1.1rem; box-shadow:0 16px 46px rgba(25,45,63,.055); }
+.portfolio-login-form h2 { letter-spacing:-.025em; color:#20374b; }
+.portfolio-login-form .form-control { min-height:2.7rem; }
+.portfolio-login-form .btn-lg { min-height:3rem; font-size:.98rem; font-weight:700; background:#234b67; border-color:#234b67; }
+.portfolio-login-form .btn-lg:hover { background:#18374c; border-color:#18374c; }
+.portfolio-login-divider { display:flex; gap:1rem; align-items:center; margin:1.6rem 0; font-size:.78rem; color:#718090; }
+.portfolio-login-divider:before, .portfolio-login-divider:after { content:""; height:1px; background:#dce3ea; flex:1; }
+@media(max-width:900px) { .portfolio-login-shell { grid-template-columns:1fr; } .portfolio-login-story { gap:1.6rem; padding:2rem; } .portfolio-login-story h1 { font-size:2.2rem; max-width:24ch; margin-bottom:.7rem; } .portfolio-login-features { margin-top:1rem; } .portfolio-login-panel { padding:1.5rem; } }
+@media(max-width:575px) { .portfolio-login-story { padding:1.5rem; } .portfolio-login-story h1 { font-size:1.9rem; } .portfolio-login-features { gap:.5rem 1rem; } .portfolio-login-panel { padding:1rem; } .portfolio-login-form { padding:1.5rem; } }
