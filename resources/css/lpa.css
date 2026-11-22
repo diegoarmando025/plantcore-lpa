@@ -133,3 +133,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .portfolio-login-form { color:#203649; --bs-body-color:#203649; --bs-secondary-color:#586a7b; --bs-heading-color:#203649; }
 .portfolio-login-form .text-secondary { color:#586a7b !important; }
+
+
+/* Consistent DevAlejandre product identity across the portfolio. */
+.da-story-brand {display:flex;flex-direction:column;align-items:flex-start;gap:.7rem}
+.da-logo-plate {display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e2e8ed;border-radius:.45rem;padding:.48rem .7rem;text-decoration:none;max-width:100%}
+.da-logo-plate img {display:block;max-width:100%;width:194px;height:auto}
+.da-product-label {font-size:.85rem;color:#c6d7e3;font-weight:600;letter-spacing:.035em}
+.da-sidebar-brand {display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;padding:.2rem .15rem}
+.da-sidebar-logo {display:inline-flex;align-items:center;background:#fff;padding:.22rem .5rem;border-radius:.3rem}
+.da-sidebar-logo img {display:block;width:130px;height:auto;max-height:30px}
+.da-sidebar-product {font-size:.76rem;color:#d5dfe9;font-weight:600;letter-spacing:.04em}
+.portfolio-login-page .portfolio-login-form .form-control {background:#fff!important;color:#203649!important;border-color:#c9d3dd!important}
+.portfolio-login-page .portfolio-login-form .form-control:focus {border-color:#547f9f!important;box-shadow:0 0 0 .2rem rgba(35,75,103,.12)}
+.portfolio-login-page .portfolio-login-form .btn-outline-primary {color:#234b67;border-color:#799cb5}
+.portfolio-login-page .portfolio-login-form .btn-outline-primary:hover {color:#fff;background:#234b67}

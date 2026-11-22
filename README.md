@@ -1,10 +1,10 @@
-# PlantCore LPA
+# DevAlejandre LPA
 
 A Laravel application for Layered Process Audits (LPA), designed around fictional manufacturing workflows. It demonstrates audit planning, configurable checklists, execution, corrective actions, role-scoped access, and operational reporting.
 
 ## Interactive evaluation
 
-[Open PlantCore LPA](https://lpa.devalejandre.com/login) and select **Entrar como administrador demo**.
+[Open DevAlejandre LPA](https://lpa.devalejandre.com/login) and select **Entrar al demo interactivo**.
 
 The live demo supports scheduling and completing audits, recording findings, monitoring corrective actions, browsing the calendar, and exporting reports. Visitors use shared fictional records belonging to a dedicated demo plant. Changes may remain visible to other visitors until the scenario is restored. Do not enter personal, confidential, or customer information.
 
@@ -90,8 +90,8 @@ GitHub Actions runs the automated test suite and verifies the built assets on pu
 
 ## Related projects
 
-- [PlantCore Traceability](https://github.com/diegoarmando025/industrial-traceability-api)
-- [PlantCore Service Desk](https://github.com/diegoarmando025/plantcore-service-desk)
+- [DevAlejandre Traceability](https://github.com/diegoarmando025/industrial-traceability-api)
+- [DevAlejandre Service Desk](https://github.com/diegoarmando025/plantcore-service-desk)
 
 ## Scope
 

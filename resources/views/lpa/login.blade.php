@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Acceso · PlantCore LPA</title>
+    <title>LPA · DevAlejandre</title>
+    <link rel="icon" href="https://devalejandre.com/assets/brand/favicon.ico" sizes="any">
     @vite(['resources/css/lpa.css','resources/js/lpa.js'])
 </head>
 <body class="bg-body-tertiary portfolio-login-page">
 <main class="portfolio-login-shell">
     <section class="portfolio-login-story" aria-label="Descripción del sistema">
-        <div class="portfolio-login-brand"><i class="bi bi-clipboard-check me-2"></i> PlantCore <span>LPA</span></div>
+        <div class="da-story-brand"><a class="da-logo-plate" href="https://devalejandre.com" aria-label="DevAlejandre"><img src="https://devalejandre.com/assets/brand/DevAlejandre_logo.svg" alt="DevAlejandre" width="194" height="36"></a><span class="da-product-label">LPA</span></div>
         <div>
             <div class="portfolio-login-eyebrow">AUDITORÍAS POR CAPAS</div>
             <h1>De cada hallazgo a una acción verificable.</h1>
