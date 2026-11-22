@@ -2,6 +2,12 @@
 
 Sistema de auditorías por capas (Layered Process Audits) para operaciones industriales. Proyecto de portafolio desarrollado en Laravel y AdminLTE, con datos de demostración ficticios.
 
+## Demo interactiva para evaluadores
+
+**[Entrar a PlantCore LPA](https://lpa.devalejandre.com/login)** y elegir **Entrar como administrador demo**. El visitante puede programar auditorías de ejemplo, responder cuestionarios, registrar incumplimientos, gestionar acciones correctivas y explorar calendario, reportes y exportaciones en la aplicación real.
+
+Los usuarios comparten los registros ficticios de la planta `DEMO-PUBLIC`; sus cambios se pueden restaurar mediante un comando privado. No se deben introducir datos personales ni de clientes. [Recorrido interactivo](docs/INTERACTIVE_PORTFOLIO_DEMO.md) · [Traceability](https://traceability.devalejandre.com/login) · [Service Desk](https://service-desk.devalejandre.com/login).
+
 ## Funcionalidades
 
 - Planeación individual y masiva de auditorías diarias o semanales, con validación de duplicados.
@@ -11,7 +17,7 @@ Sistema de auditorías por capas (Layered Process Audits) para operaciones indus
 - Indicadores de conformidad y cumplimiento por nivel y por responsable; exportaciones CSV.
 - Control de acceso por rol y por planta, con pruebas automatizadas de aislamiento.
 
-## Demostración web de solo lectura
+## Vista pública de solo lectura (complementaria a la demo interactiva)
 
 La ruta opcional `/demo` permite recorrer auditorías, filtrar por nivel/estado y consultar hallazgos **ficticios** sin iniciar sesión ni compartir credenciales administrativas. Los datos viven en una planta separada (`DEMO-PUBLIC`) y la función está desactivada por defecto. El acceso interno `/audits` continúa protegido por sesión.
 
