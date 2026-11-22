@@ -23,3 +23,17 @@
 .lpa-calendar td { width: 14.285%; height: 110px; vertical-align: top; }
 .lpa-calendar .small { font-size: .76rem; }
 .app-content .table th { white-space: nowrap; }
+
+
+/* Interactive portfolio landing — presentation only; operational routes are unchanged. */
+.portfolio-hero { padding: clamp(1.35rem, 2.3vw, 2.25rem); border-radius: 1rem; background: #172a3c; color: #f8fafc; border: 1px solid #30465a; }
+.portfolio-hero .portfolio-eyebrow { font-size: .69rem; letter-spacing: .13em; font-weight: 700; color: #9fbecc; }
+.portfolio-hero .portfolio-subtitle { max-width: 65ch; color: #c5d1da; line-height: 1.6; }
+.portfolio-hero .btn-outline-secondary { border-color: #92a6b5; color: #fff; }
+.portfolio-hero .btn-outline-secondary:hover { background: #fff; color: #172a3c; }
+.portfolio-demo-note { padding: .85rem 1.1rem; border: 1px solid #cfdfeb; border-left: 3px solid #416d87; border-radius: .6rem; background: #f5f9fb; color: #284457; font-size: .88rem; }
+.app-content .portfolio-stat, .app-content .portfolio-step { border-color: #dfe5eb; border-radius: .85rem; background: #fff; transition: border-color .15s ease; }
+.app-content .portfolio-step:hover { border-color: #aabeca; }
+.portfolio-stat-value { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 700; line-height: 1.1; margin: .7rem 0 .5rem; font-variant-numeric: tabular-nums; }
+.portfolio-step-number { font-size: .82rem; font-weight: 700; letter-spacing: .09em; color: #35617c; }
+@media (max-width: 575px) { .portfolio-hero .btn { width: 100%; } .portfolio-hero .d-flex.flex-wrap { width: 100%; } }
