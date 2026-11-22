@@ -65,6 +65,29 @@ jobs:
       - run: composer validate --no-check-publish
       - run: composer install --no-interaction --prefer-dist --no-progress --optimize-autoloader
       - run: npm ci && npm run build
+      - name: Exercise guarded transfer on disposable SQLite and MySQL
+        env:
+          APP_ENV: testing
+          APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+          DB_CONNECTION: sqlite
+          DB_URL: ''
+          DB_DATABASE: database/database.sqlite
+          MIGRATION_DB_HOST: 127.0.0.1
+          MIGRATION_DB_PORT: '3306'
+          MIGRATION_DB_NAME: plantcore_ci
+          MIGRATION_EXPECTED_DATABASE: plantcore_ci
+          MIGRATION_DB_USER: root
+          MIGRATION_DB_PASSWORD: root
+          MIGRATION_BACKUP_CONFIRMED: 'yes'
+          MIGRATION_ALLOW_WRITE: 'yes'
+        run: |
+          php -l scripts/sqlite-to-mysql.php
+          touch database/database.sqlite
+          php artisan migrate --database=sqlite --force
+          php scripts/sqlite-to-mysql.php check
+          php scripts/sqlite-to-mysql.php prepare
+          php scripts/sqlite-to-mysql.php copy
+          php scripts/sqlite-to-mysql.php verify
       - name: Run feature suite against disposable MySQL database
         env:
           APP_ENV: testing
