@@ -18,7 +18,19 @@
 <div class="col-sm-3"><div class="text-secondary small">Conformidad</div><div class="fs-4 fw-semibold">{{ $data['conformity_pct']===null ? '—' : $data['conformity_pct'].'%' }}</div></div>
 </div><p class="small text-secondary mt-3 mb-0">Conformidad = respuestas que cumplen / respuestas aplicables. “No aplica” se excluye del denominador.</p></div></div>
 <div class="card mt-3"><div class="card-header"><h2 class="card-title">Cumplimiento por nivel LPA</h2></div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0 align-middle"><thead><tr><th>Nivel</th><th>Programadas</th><th>Completadas</th><th>Cumplimiento</th></tr></thead><tbody>
-@forelse($levels as $level)<tr><td>L{{ $level->level }}</td><td>{{ $level->scheduled }}</td><td>{{ $level->finished }}</td><td>{{ $level->scheduled ? round($level->finished*100/$level->scheduled,1).'%' : '—' }}</td></tr>
+@forelse($levels as $level)<tr><td>L{{ $level->level }}</td><td>{{ $level->scheduled }}</td><td>{{ $level->finished }}</td><td>
+@if($level->scheduled)
+@php($percent=round($level->finished*100/$level->scheduled,1))
+<div class="d-flex align-items-center gap-2" style="min-width:145px">
+  <div class="progress flex-grow-1" role="progressbar" aria-label="Cumplimiento nivel L{{ $level->level }}" aria-valuenow="{{ $percent }}" aria-valuemin="0" aria-valuemax="100" style="height:7px">
+    <div class="progress-bar bg-{{ $percent >= 90 ? 'success' : ($percent >= 70 ? 'info' : 'warning') }}" style="width:{{ $percent }}%"></div>
+  </div>
+  <span class="small fw-semibold text-nowrap">{{ $percent }}%</span>
+</div>
+@else
+<span class="text-secondary">—</span>
+@endif
+</td></tr>
 @empty<tr><td colspan="4" class="text-secondary text-center py-3">Sin auditorías en el periodo.</td></tr>@endforelse
 </tbody></table></div></div></div>
 <div class="card mt-3"><div class="card-header"><h2 class="card-title">Acciones por responsable</h2></div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0 align-middle"><thead><tr><th>Responsable</th><th>Total</th><th>Abiertas</th><th>Vencidas</th></tr></thead><tbody>
