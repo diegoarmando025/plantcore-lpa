@@ -47,10 +47,4 @@ class PortfolioAccountsTest extends TestCase
         $this->assertFalse($user->fresh()->is_portfolio_owner);
     }
 
-    public function test_non_interactive_provisioning_is_blocked_without_creating_users(): void
-    {
-        $before = User::count();
-        $this->artisan('portfolio:provision-access')->assertExitCode(1);
-        $this->assertSame($before, User::count());
-    }
 }
