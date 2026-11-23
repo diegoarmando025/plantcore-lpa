@@ -7,6 +7,7 @@ use App\Http\Controllers\LpaCalendarController;
 use App\Http\Controllers\LpaBatchController;
 use App\Http\Controllers\LpaExportController;
 use App\Http\Controllers\LpaSummaryExportController;
+use App\Http\Controllers\CorrectiveActionEvidenceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortfolioDemoController;
 use App\Http\Controllers\LpaPublicDemoController;
@@ -49,4 +50,6 @@ Route::middleware('auth')->group(function(){
  Route::get('/reports/trends',[LpaTrendsController::class,'index'])->name('lpa.trends');
  Route::get('/reports/trends/export',[LpaTrendsController::class,'export'])->name('lpa.trends.export');
  Route::post('/actions/{action}/close',[LpaController::class,'closeAction'])->name('lpa.actions.close');
+ Route::post('/actions/{action}/evidences',[CorrectiveActionEvidenceController::class,'store'])->middleware('throttle:10,1')->name('lpa.actions.evidences.store');
+ Route::get('/actions/evidences/{evidence}/download',[CorrectiveActionEvidenceController::class,'download'])->middleware('throttle:60,1')->name('lpa.actions.evidences.download');
 });
