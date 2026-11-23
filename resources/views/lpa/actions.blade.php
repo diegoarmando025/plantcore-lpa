@@ -14,9 +14,12 @@
 <div class="col-md-3"><label class="form-label" for="due">Vencimiento</label><select class="form-select" id="due" name="due"><option value="">Todos</option><option value="overdue" @selected(($filters['due']??'')==='overdue')>Vencidas</option><option value="next_7" @selected(($filters['due']??'')==='next_7')>Próximos 7 días</option><option value="no_date" @selected(($filters['due']??'')==='no_date')>Sin fecha</option></select></div>
 <div class="col-md-3"><button class="btn btn-outline-primary w-100">Aplicar filtros</button></div>
 </form></div></div>
-<div class="card"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0 align-middle"><thead><tr><th>Folio</th><th>Auditoría</th><th>Hallazgo</th><th>Responsable</th><th>Compromiso</th><th>Estado</th><th>Gestión</th></tr></thead><tbody>
+@if($errors->any())<div class="alert alert-danger" role="alert">{{ $errors->first() }}</div>@endif
+<div class="card"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0 align-middle"><thead><tr><th>Folio</th><th>Auditoría</th><th>Hallazgo</th><th>Responsable</th><th>Compromiso</th><th>Estado</th><th>Evidencias</th><th>Gestión</th></tr></thead><tbody>
 @forelse($actions as $action)
-@php($canManage=\App\Support\LpaAccess::role(auth()->id(),$action->answerAudit->plant_id)==='supervisor')
+@php($role=\App\Support\LpaAccess::role(auth()->id(),$action->answerAudit->plant_id))
+@php($canManage=$role==='supervisor')
+@php($canUpload=$action->status==='open' && ($role==='supervisor' || ($role==='auditor' && (int)$action->answerAudit->assigned_to === (int)auth()->id())))
 <tr>
 <td>#{{ $action->id }}</td>
 <td><a href="{{ route('lpa.audits.show',$action->answerAudit) }}">#{{ $action->answerAudit->id }}</a></td>
@@ -26,6 +29,32 @@
 @if($action->status==='open' && $action->due_date && $action->due_date->lt(today()))<span class="badge text-bg-danger ms-1">Vencida</span>@endif
 </td>
 <td><span class="badge {{ $action->status==='open' ? 'text-bg-warning' : 'text-bg-success' }}">{{ $action->status==='open' ? 'Abierta' : 'Cerrada' }}</span></td>
+<td style="min-width:210px">
+<details>
+<summary class="btn btn-sm btn-outline-primary">Evidencias ({{ $action->evidences->count() }})</summary>
+<div class="mt-2">
+@forelse($action->evidences as $evidence)
+<div class="border-bottom py-2 small">
+<a href="{{ route('lpa.actions.evidences.download',$evidence) }}">{{ $evidence->original_name }}</a>
+<div class="text-secondary">{{ $evidence->uploader?->name }} · {{ $evidence->created_at->format('d/m/Y H:i') }}</div>
+@if($evidence->note)<div>{{ $evidence->note }}</div>@endif
+</div>
+@empty
+<p class="small text-secondary mb-2">Sin evidencias adjuntas.</p>
+@endforelse
+@if($canUpload && $action->evidences->count() < 5)
+<form method="POST" enctype="multipart/form-data" action="{{ route('lpa.actions.evidences.store',$action) }}" class="mt-2">
+@csrf
+<label for="action_evidence_{{ $action->id }}" class="form-label small">Adjuntar evidencia</label>
+<input id="action_evidence_{{ $action->id }}" class="form-control form-control-sm mb-2" type="file" name="evidence" accept=".jpg,.jpeg,.png,.webp,.pdf" required>
+<input class="form-control form-control-sm mb-2" name="note" maxlength="500" placeholder="Descripción de la evidencia (opcional)" aria-label="Descripción de evidencia">
+<div class="small text-secondary mb-2">JPG, PNG, WebP o PDF · Hasta 4 MB · Máximo 5 archivos por acción</div>
+<button type="submit" class="btn btn-sm btn-primary">Subir evidencia</button>
+</form>
+@endif
+</div>
+</details>
+</td>
 <td>
 @if($action->status==='open' && $canManage)
 <div class="d-flex gap-2 flex-wrap">
@@ -34,6 +63,6 @@
 </div>
 @endif
 </td></tr>
-@empty<tr><td colspan="7" class="text-center text-secondary py-4">No se encontraron acciones.</td></tr>@endforelse
+@empty<tr><td colspan="8" class="text-center text-secondary py-4">No se encontraron acciones.</td></tr>@endforelse
 </tbody></table></div></div>@if($actions->hasPages())<div class="card-footer">{{ $actions->links('pagination::bootstrap-5') }}</div>@endif</div>
 @endsection
