@@ -24,6 +24,11 @@
  <div class="fw-semibold">Acción correctiva #{{ $answer->action->id }}</div>
  <span class="badge {{ $answer->action->status==='open' ? 'text-bg-warning' : 'text-bg-success' }}">{{ $answer->action->status==='open' ? 'Abierta' : 'Cerrada' }}</span>
  <div class="mt-1">Evidencias: {{ $answer->action->evidences->count() }}</div>
+@if($answer->action->status==='closed' && $answer->action->closure_note)
+<div class="mt-2 fw-semibold">Verificación de cierre</div>
+<div>{{ $answer->action->closure_note }}</div>
+<div class="text-secondary">{{ $answer->action->closer?->name }} · {{ $answer->action->closed_at?->format('d/m/Y H:i') }}</div>
+@endif
  @foreach($answer->action->evidences as $evidence)
  <div><a href="{{ route('lpa.actions.evidences.download',$evidence) }}">{{ $evidence->original_name }}</a></div>
  @endforeach

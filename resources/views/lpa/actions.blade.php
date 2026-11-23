@@ -28,7 +28,17 @@
 <td class="text-nowrap">{{ $action->due_date?->format('d/m/Y') ?? 'Sin fecha' }}
 @if($action->status==='open' && $action->due_date && $action->due_date->lt(today()))<span class="badge text-bg-danger ms-1">Vencida</span>@endif
 </td>
-<td><span class="badge {{ $action->status==='open' ? 'text-bg-warning' : 'text-bg-success' }}">{{ $action->status==='open' ? 'Abierta' : 'Cerrada' }}</span></td>
+<td>
+<span class="badge {{ $action->status==='open' ? 'text-bg-warning' : 'text-bg-success' }}">{{ $action->status==='open' ? 'Abierta' : 'Cerrada' }}</span>
+@if($action->status==='closed')
+  @if($action->closure_note)
+    <div class="small text-secondary mt-1">Verificada por {{ $action->closer?->name ?? 'Supervisión' }} · {{ $action->closed_at?->format('d/m/Y H:i') }}</div>
+    <div class="small mt-1">{{ $action->closure_note }}</div>
+  @else
+    <div class="small text-secondary mt-1">Cierre anterior al registro de verificaciones</div>
+  @endif
+@endif
+</td>
 <td style="min-width:210px">
 <details>
 <summary class="btn btn-sm btn-outline-primary">Evidencias ({{ $action->evidences->count() }})</summary>
@@ -59,7 +69,16 @@
 @if($action->status==='open' && $canManage)
 <div class="d-flex gap-2 flex-wrap">
 <form method="POST" action="{{ route('lpa.actions.update',$action) }}" class="d-flex gap-1">@csrf<input type="date" name="due_date" class="form-control form-control-sm" value="{{ $action->due_date?->toDateString() }}" required aria-label="Fecha compromiso"><button class="btn btn-sm btn-outline-primary">Guardar</button></form>
-<form method="POST" action="{{ route('lpa.actions.close',$action) }}">@csrf<button class="btn btn-sm btn-outline-success">Cerrar</button></form>
+<details class="border rounded p-2 w-100">
+<summary class="btn btn-sm btn-outline-success">Verificar y cerrar</summary>
+<form method="POST" action="{{ route('lpa.actions.close',$action) }}" class="mt-2">
+@csrf
+<label class="form-label small" for="closure_note_{{ $action->id }}">Resultado de la verificación</label>
+<textarea id="closure_note_{{ $action->id }}" name="closure_note" class="form-control form-control-sm mb-2" rows="3" minlength="15" maxlength="2000" required placeholder="Describe cómo se verificó la corrección"></textarea>
+@if($action->evidences->isEmpty())<p class="small text-warning-emphasis mb-2">Adjunta una evidencia en esta acción antes de cerrarla.</p>@else<p class="small text-secondary mb-2">Evidencias adjuntas: {{ $action->evidences->count() }}</p>@endif
+<button class="btn btn-sm btn-success" type="submit" @disabled($action->evidences->isEmpty())>Confirmar cierre</button>
+</form>
+</details>
 </div>
 @endif
 </td></tr>

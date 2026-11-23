@@ -6,6 +6,8 @@ use App\Models\Plant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 class LpaFlowTest extends TestCase {
  use RefreshDatabase;
@@ -26,7 +28,13 @@ class LpaFlowTest extends TestCase {
   $this->assertDatabaseHas('corrective_actions',['description'=>'Falta protección','status'=>'open']);
   $this->actingAs($u)->get('/actions')->assertOk()->assertSee('Falta protección');
   $id=DB::table('corrective_actions')->value('id');
-  $this->actingAs($u)->post("/actions/$id/close")->assertRedirect();
+  Storage::fake('local');
+  $this->actingAs($u)->post("/actions/$id/evidences",[
+    'evidence'=>UploadedFile::fake()->create('evidencia.pdf',40,'application/pdf'),
+  ])->assertRedirect()->assertSessionHas('ok');
+  $this->actingAs($u)->post("/actions/$id/close",[
+    'closure_note'=>'Corrección verificada y evidencia validada en planta.',
+  ])->assertRedirect()->assertSessionHas('ok');
   $this->assertDatabaseHas('corrective_actions',['id'=>$id,'status'=>'closed']);
  }
  public function test_viewer_cannot_schedule_or_complete():void {
