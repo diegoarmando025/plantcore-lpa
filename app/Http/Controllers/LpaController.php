@@ -59,7 +59,7 @@ class LpaController extends Controller
     public function show(Request $r, Audit $audit) {
         $this->check($r,$audit,'read');
         $audit->load(['template.questions','assignee:id,name']);
-        $answers=$audit->answers()->with('action.evidences')->get()->keyBy('audit_question_id');
+        $answers=$audit->answers()->with(['action.evidences','action.closer'])->get()->keyBy('audit_question_id');
         $role=LpaAccess::role($r->user()->id,$audit->plant_id);
         $canComplete=$audit->status==='planned' && ($role==='supervisor' || ($role==='auditor' && (int)$audit->assigned_to===(int)$r->user()->id));
         return view('lpa.show',compact('audit','answers','canComplete'));
@@ -105,7 +105,7 @@ class LpaController extends Controller
             'owner_id'=>['nullable','integer'],
             'due'=>['nullable',Rule::in(['overdue','next_7','no_date'])],
         ]);
-        $query=CorrectiveAction::query()->with(['answerAudit.template','owner:id,name','evidences.uploader:id,name'])
+        $query=CorrectiveAction::query()->with(['answerAudit.template','owner:id,name','evidences.uploader:id,name','closer:id,name'])
             ->whereHas('answerAudit',fn($q)=>$q->whereIn('plant_id',$ids));
         if(!empty($filters['status'])) $query->where('status',$filters['status']);
         if(!empty($filters['owner_id'])) $query->where('owner_id',$filters['owner_id']);
@@ -173,7 +173,26 @@ class LpaController extends Controller
         $audit=$action->answerAudit()->firstOrFail();
         LpaAccess::enforce($r->user()->id,$audit->plant_id,'manage');
         abort_if($action->status==='closed',409);
-        $action->update(['status'=>'closed','closed_at'=>now()]);
-        return redirect()->route('lpa.actions')->with('ok','Acción cerrada.');
+        $data=$r->validate([
+            'closure_note'=>['required','string','min:15','max:2000'],
+        ]);
+        DB::transaction(function () use ($r,$action,$data): void {
+            $locked=CorrectiveAction::query()->lockForUpdate()->findOrFail($action->id);
+            $lockedAudit=$locked->answerAudit()->firstOrFail();
+            LpaAccess::enforce($r->user()->id,$lockedAudit->plant_id,'manage');
+            abort_if($locked->status==='closed',409,'La acción ya está cerrada.');
+            if(! $locked->evidences()->exists()) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'closure_note'=>'Adjunta al menos una evidencia antes de cerrar la acción.',
+                ]);
+            }
+            $locked->update([
+                'status'=>'closed',
+                'closed_at'=>now(),
+                'closed_by'=>$r->user()->id,
+                'closure_note'=>$data['closure_note'],
+            ]);
+        },3);
+        return redirect()->route('lpa.actions')->with('ok','Acción cerrada con evidencia y verificación registrada.');
     }
 }
