@@ -59,7 +59,7 @@ class LpaController extends Controller
     public function show(Request $r, Audit $audit) {
         $this->check($r,$audit,'read');
         $audit->load(['template.questions','assignee:id,name']);
-        $answers=$audit->answers()->get()->keyBy('audit_question_id');
+        $answers=$audit->answers()->with('action.evidences')->get()->keyBy('audit_question_id');
         $role=LpaAccess::role($r->user()->id,$audit->plant_id);
         $canComplete=$audit->status==='planned' && ($role==='supervisor' || ($role==='auditor' && (int)$audit->assigned_to===(int)$r->user()->id));
         return view('lpa.show',compact('audit','answers','canComplete'));
@@ -105,7 +105,7 @@ class LpaController extends Controller
             'owner_id'=>['nullable','integer'],
             'due'=>['nullable',Rule::in(['overdue','next_7','no_date'])],
         ]);
-        $query=CorrectiveAction::query()->with(['answerAudit.template','owner:id,name'])
+        $query=CorrectiveAction::query()->with(['answerAudit.template','owner:id,name','evidences.uploader:id,name'])
             ->whereHas('answerAudit',fn($q)=>$q->whereIn('plant_id',$ids));
         if(!empty($filters['status'])) $query->where('status',$filters['status']);
         if(!empty($filters['owner_id'])) $query->where('owner_id',$filters['owner_id']);
