@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CorrectiveActionEvidence extends Model
 {
+    protected $table = 'corrective_action_evidences';
+
     protected $fillable = [
         'corrective_action_id', 'uploaded_by', 'disk', 'path',
         'original_name', 'mime_type', 'size', 'note',
