@@ -7,6 +7,7 @@ use App\Http\Controllers\LpaCalendarController;
 use App\Http\Controllers\LpaBatchController;
 use App\Http\Controllers\LpaExportController;
 use App\Http\Controllers\LpaSummaryExportController;
+use App\Http\Controllers\CorrectiveActionEvidenceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortfolioDemoController;
 use App\Http\Controllers\LpaPublicDemoController;
