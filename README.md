@@ -18,6 +18,7 @@ The live demo supports scheduling and completing audits, recording findings, mon
 - Monthly calendar and audit execution with pass, fail, and not-applicable answers
 - Automatic corrective actions for failed checks
 - Corrective-action ownership, target dates, overdue tracking, and closure
+- Private PDF and photographic evidence attached to findings, with plant-scoped download permissions and uploader attribution
 - Compliance indicators, audit trends, level and owner summaries, and CSV exports
 - Role-based access for viewers, auditors, and supervisors, scoped to assigned plants
 - Public read-only sample scenarios and a separate interactive fictional dataset
@@ -75,9 +76,16 @@ For manual local login, assign a private password to the sample account using La
 | Calendar | `/calendar` |
 | Checklists | `/templates` |
 | Corrective actions | `/actions` |
+| Private evidence | `/actions` (attach to an open corrective action; authenticated download) |
 | Audit reporting | `/reports` |
 | Trends | `/reports/trends` |
 | CSV exports | `/exports/audits`, `/exports/actions`, `/exports/summary` |
+
+## Updating a deployed installation
+
+Before deploying a release containing private corrective-action evidence, back up the LPA database and `storage` directory. Install the new application files, retain the existing `.env` and storage, and run `php artisan migrate --force` **for LPA only** with the site's configured PHP binary. This creates the additive `corrective_action_evidences` table; it does not remove prior audits or actions. No public storage symlink is required: attachments use the Laravel private local disk and are served through authenticated permission checks.
+
+Each active corrective action accepts at most five JPG, PNG, WebP or PDF files, up to 4 MB each. Authorized plant readers may download existing evidence. Assigned auditors and plant supervisors may attach it; closed actions are read-only. Public demo visitors must upload only fictional, non-sensitive documents.
 
 ## Verification
 
