@@ -18,7 +18,18 @@
 @foreach($audit->template->questions as $q)
 @php($answer=$answers->get($q->id))
 <div class="border-bottom py-3"><div class="fw-semibold">{{ $loop->iteration }}. {{ $q->text }}</div><span class="badge {{ $answer?->result==='pass' ? 'text-bg-success' : ($answer?->result==='fail' ? 'text-bg-danger' : 'text-bg-secondary') }}">{{ match($answer?->result){'pass'=>'Cumple','fail'=>'No cumple',default=>'No aplica'} }}</span>
-@if($answer?->note)<div class="mt-2 small">{{ $answer->note }}</div>@endif</div>
+@if($answer?->note)<div class="mt-2 small">{{ $answer->note }}</div>@endif
+@if($answer?->result==='fail' && $answer->action)
+<div class="mt-3 small">
+ <div class="fw-semibold">Acción correctiva #{{ $answer->action->id }}</div>
+ <span class="badge {{ $answer->action->status==='open' ? 'text-bg-warning' : 'text-bg-success' }}">{{ $answer->action->status==='open' ? 'Abierta' : 'Cerrada' }}</span>
+ <div class="mt-1">Evidencias: {{ $answer->action->evidences->count() }}</div>
+ @foreach($answer->action->evidences as $evidence)
+ <div><a href="{{ route('lpa.actions.evidences.download',$evidence) }}">{{ $evidence->original_name }}</a></div>
+ @endforeach
+ <a href="{{ route('lpa.actions') }}" class="d-inline-block mt-1">Ver seguimiento</a>
+</div>
+@endif</div>
 @endforeach
 @else
 <div class="alert alert-info mb-0"><i class="bi bi-info-circle me-2"></i>Esta auditoría está asignada a otro responsable. Puedes consultar su información, pero solo el auditor asignado o un supervisor puede completarla.</div>
