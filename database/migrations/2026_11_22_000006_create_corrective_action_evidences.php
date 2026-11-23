@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('size');
             $table->string('note', 500)->nullable();
             $table->timestamps();
-            $table->index(['corrective_action_id', 'created_at']);
+            $table->index(['corrective_action_id', 'created_at'], 'ca_evidence_action_created_idx');
         });
     }
 
