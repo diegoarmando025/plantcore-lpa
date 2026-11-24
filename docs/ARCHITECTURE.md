@@ -2,7 +2,7 @@
 
 ## Propósito y límites
 
-Aplicación Laravel/Blade para planificar, ejecutar y consultar auditorías de proceso por capas, con control de acceso por planta. Se trata de un proyecto de portafolio con datos ficticios, no de una implementación validada para producción.
+Aplicación Laravel/Blade para planificar, ejecutar y consultar auditorías de proceso por capas, con control de acceso por planta. El entorno de evaluación utiliza datos ficticios y acceso delimitado por planta.
 
 ## Componentes
 
@@ -35,7 +35,7 @@ erDiagram
 - `plant_user` asigna `viewer`, `auditor` o `supervisor` a cada usuario **por planta**, no globalmente.
 - `audit_templates` define planta, área y nivel (1–5); `audit_questions` contiene las preguntas ordenadas.
 - `audits` almacena asignación, fecha y estado; `audit_answers` conserva la respuesta `pass`, `fail` o `na`.
-- `corrective_actions` se relaciona con una respuesta no conforme. Incluye responsable, compromiso y fecha de cierre.
+- `corrective_actions` se relaciona con una respuesta no conforme. Incluye responsable, fecha objetivo y cierre verificado por supervisor, con evidencia privada y registro de la verificación.
 
 ## Permisos
 
@@ -72,9 +72,9 @@ La finalización emplea una transacción y bloqueo de la auditoría para evitar 
 2. **Roles asignados por planta**: impiden la consulta transversal desde los controladores; cualquier endpoint nuevo debe reutilizar esta regla explícitamente.
 3. **Generación por lotes**: limita a 60 auditorías por operación y omite fechas repetidas; la comprobación de duplicados es de aplicación, no una restricción única en base de datos. La concurrencia real requiere reforzar la restricción.
 4. **Cuestionarios históricos**: se inmovilizan después de programar auditorías. Una versión industrial debería registrar versiones explícitas de cada cuestionario y su vigencia.
-5. **Acciones correctivas**: actualmente tienen estado, responsable y fecha de cierre. No hay todavía flujo de evidencia adjunta, aprobación/verificación de eficacia, notificaciones o bitácora inmutable.
+5. **Acciones correctivas**: permiten adjuntar evidencia privada y requieren verificación documentada por un supervisor para el cierre. El seguimiento de eficacia posterior al cierre, las notificaciones automáticas y una bitácora inmutable quedan fuera del alcance actual.
 6. **Exportaciones CSV**: limitan los registros según las plantas visibles y neutralizan prefijos que podrían interpretarse como fórmulas en hojas de cálculo.
-7. **No es un despliegue productivo**: faltan controles de operación como copias de seguridad verificadas, observabilidad, políticas de conservación de evidencias y evaluación de seguridad antes de utilizar datos reales.
+7. **Operación en entornos reales**: requiere definir respaldos verificables, observabilidad, conservación de evidencias y evaluación de seguridad según el entorno de despliegue.
 
 ## Validación
 
